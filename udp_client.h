@@ -24,13 +24,12 @@ public:
 		udp_sock.SetTimeout(INITIAL_TIMEOUT);
 
 		Address server_addr(address, port);
-
-		std::string msg_to_send("Hello, server! How are you?");
-		
-		char buffer[4096];
 		Address msg_from;
-
+		std::string msg_to_send(str);
+		char buffer[1];
 		int nbytes_recvd = -1;
+		float wait_time = INITIAL_TIMEOUT;
+
 		// while (wait_time < max_wait_time && nbytes_recvd == -1)
 		{
 			size_t nbytes_sent = udp_sock.SendTo(msg_to_send.data(),
@@ -39,7 +38,6 @@ public:
 
 			std::cout << "Sent " << nbytes_sent << " bytes to "
 				<< server_addr << "\n";
-
 
 			// Problem: RecvFrom() receives data from *anyone* -- but
 			// we only want data that the server sent back! How can
@@ -65,16 +63,14 @@ public:
 			}
 		}
 
-		if (wait_time > max_wait_time)
+		if (wait_time > MAX_TIMEOUT)
 		{
 			std::cout << "Never received a message!! Now I really AM sad :(\n";
 			return;
 		}
 
-		std::cout << "Received " << nbytes_recvd << " bytes from " << msg_from
-			<< ": '";
-		std::cout.write(buffer, nbytes_recvd);
-		std::cout << "'\n";
+		std::cout << "Received " << nbytes_recvd << " bytes from " << msg_from << ": '";
+		std::cout.write(buffer, nbytes_recvd) << "'\n";
 
 		return -1;
 	}
