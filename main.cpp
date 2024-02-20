@@ -50,18 +50,11 @@ void generateRandomNumber()
 int main(int argc, char* argv[]) {
     /* TODO: SET UP / TEAR DOWN SOCKET LIBRARY HERE; SEED RANDOM
        NUMBERS */
-
-       //int result = run_all_tests();
-
     SockLibInit();
 
     // Do this ONCE per program:
     srand(time(NULL));
     generateRandomNumber();
-
-
-    // Run client if no args passed on command line;
-    // otherwise, run server.
 
     int result = run_all_tests();
 
